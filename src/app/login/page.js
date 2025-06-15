@@ -9,7 +9,7 @@ export default function LoginPage(){
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Login
             </h1>
-            <p className="text-small text-gray-500">Welcome Back!</p>
+            <p className="text-small text-gray-500">Welcome Back</p>
             <LoginForm />
             <p className="text-center text-sm text-gray-500">
               Don't have an account?

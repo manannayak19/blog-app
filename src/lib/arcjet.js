@@ -1,4 +1,4 @@
-import arcjet, { protectSignup } from "@arcjet/next";
+import arcjet, { detectBot, protectSignup, shield, slidingWindow, validateEmail } from "@arcjet/next";
 
 const aj = arcjet({
   key: process.env.ARCJET_KEY,
@@ -21,5 +21,30 @@ const aj = arcjet({
     }),
   ],
 });
+
+export const loginRules = arcjet({
+  key: process.env.ARCJET_KEY,
+  characteristics: ['ip.src'],
+  rules:[
+    validateEmail({
+      mode: 'LIVE',
+      block: ['DISPOSABLE', 'INVALID', 'NO_MX_RECORDS']
+    }),
+    shield({
+      mode:'LIVE'
+    }),
+    detectBot({
+      mode: 'LIVE',
+      allow: []
+    }),
+    slidingWindow({
+      mode: 'LIVE',
+      interval: '1m',
+      max: 2
+
+    })
+  ]
+
+})
 
 export default aj;

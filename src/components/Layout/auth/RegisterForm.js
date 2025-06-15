@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { User } from "lucide-react";
+import { Key, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -70,7 +70,7 @@ function RegisterForm() {
           />
         </div>
         <div className="relative">
-          <User className="absolute left-3 top-3 h-5 w-5 text-gray-400"></User>
+          <Mail className="absolute left-3 top-2 h-5 w-5 text-gray-400"></Mail>
           <Input
             type="email"
             {...register("email")}
@@ -80,7 +80,7 @@ function RegisterForm() {
           />
         </div>
         <div className="relative">
-          <User className="absolute left-3 top-3 h-5 w-5 text-gray-400"></User>
+          <Lock className="absolute left-3 top-2 h-5 w-5 text-gray-400"></Lock>
           <Input
             type="password"
             {...register("password")}
