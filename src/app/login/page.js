@@ -1,8 +1,16 @@
-import LoginForm from "@/components/Layout/auth/LoginForm"
-import Link from "next/link"
+import LoginForm from "@/components/Layout/auth/LoginForm";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import Link from "next/link";
 
-export default function LoginPage(){
-    return (<div className="min-h-screen w-full flex flex-col md:flex-row bg-gradient-to-br from-gray-100 to-gray-200">
+export default async function LoginPage() {
+  const token = (await cookies()).get("token")?.value;
+
+  if (token) {
+    redirect("/");
+  }
+  return (
+    <div className="min-h-screen w-full flex flex-col md:flex-row bg-gradient-to-br from-gray-100 to-gray-200">
       <div className="w-full md:w-1/2 flex items-center justify-center p-8 lg:p-12">
         <div className="w-full max-w-md space-y-8 bg-white p-8 rounded-lg shadow-lg">
           <div className="space-y-2 text-center">
@@ -39,5 +47,6 @@ export default function LoginPage(){
           className="absolute inset-0 object-cover w-full h-full"
         ></img>
       </div>
-    </div>)
+    </div>
+  );
 }
