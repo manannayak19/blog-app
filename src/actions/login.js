@@ -5,7 +5,7 @@ import connectToDatabase from "@/lib/db";
 import User from "@/models/User";
 import { request } from "@arcjet/next";
 import { z } from "zod";
-import  bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
@@ -79,11 +79,13 @@ export async function loginUserAction(formData) {
       }
     }
 
+    //database connection
     await connectToDatabase();
-    const user = await User.findOne({ email }).select("password");
+
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return {
-        error: "invalid credentials",
+        error: "Invalid credentials",
         status: 401,
       };
     }
@@ -99,26 +101,25 @@ export async function loginUserAction(formData) {
     const userToken = await new SignJWT({
       userId: user._id.toString(),
       email: user.email,
-      userName: user.name
+      userName: user.name,
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
       .setExpirationTime("2h")
       .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 
-      (await cookies()).set('token', userToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 7200,
-        path: '/'
-      })
+    (await cookies()).set("token", userToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7200,
+      path: "/",
+    });
 
-      return {
-        success: "Logged in successfully",
-        status: 200,
-      }
-
+    return {
+      success: "Logged in successfully",
+      status: 200,
+    };
   } catch (e) {
     console.error(e, "Registration error");
     return {

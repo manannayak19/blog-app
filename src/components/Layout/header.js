@@ -34,7 +34,9 @@ import { logoutUserAction } from "@/actions/logout";
 //import { prePaymentAction } from "@/actions/prePayment";
 
 export default function Header() {
+
   const router = useRouter();
+
   async function handleLogout() {
        const result = await logoutUserAction();
        if(result.success){
@@ -64,12 +66,16 @@ export default function Header() {
 
             <div className="flex items-center space-x-4">
               <div className="relative hidden md:block">
+                
+                {/* Search functionality */}
                 <Input
                   placeholder="Search Blogs"
                   className="pl-10 pr-4 py-1 w-64 rounded-full bg-gray-100 border-0 focus-visible:ring-1"
                 />
                 <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 cursor-pointer" />
               </div>
+
+              {/* Create new blog button */}
               <Button
                 onClick={() => router.push("/blog/create")}
                 variant="ghost"
@@ -77,6 +83,8 @@ export default function Header() {
               >
                 <Edit className="h-6 w-6"></Edit>
               </Button>
+
+            {/*  dropdown as the name suggests */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar className="h-8 w-8 cursor-pointer">
